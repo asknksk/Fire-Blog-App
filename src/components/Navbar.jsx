@@ -10,7 +10,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { Link, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import cwJpeg from "../assets/cw.jpeg";
 import { logout } from "../auth/firebase";
 import { logoutUser } from "../store/auth";
@@ -51,29 +51,33 @@ const ResponsiveAppBar = () => {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl" sx={{ justifyContent: "space-evenly" }}>
-        <Toolbar disableGutters>
+      <Container maxWidth="xl">
+        <Toolbar
+          sx={{ display: "flex", justifyContent: "space-between" }}
+          disableGutters
+        >
           <Box
             component="img"
             sx={{
               width: 40,
               maxHeight: { xs: 233, md: 167 },
               maxWidth: { xs: 350, md: 250 },
+              cursor: "pointer",
             }}
             alt="cw"
             src={cwJpeg}
+            onClick={() => navigate("/")}
           />
 
-          <Box sx={{ flexGrow: 1, display: { xs: "block", md: "block" } }}>
+          <Box sx={{ display: { xs: "none", md: "block" } }}>
             <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-            ></Button>
-          </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "block" } }}>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
+              component={RouterLink}
+              to="/"
+              sx={{
+                color: "white",
+                display: "block",
+                fontSize: "1.2rem",
+              }}
             >
               Askn Page
             </Button>
@@ -124,13 +128,31 @@ const ResponsiveAppBar = () => {
           ) : (
             <Box sx={{ display: "flex" }}>
               <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
-                  <Link to={"/register"}>Register</Link>
+                <Typography
+                  textAlign="center"
+                  component={RouterLink}
+                  to="/register"
+                  sx={{
+                    color: "white",
+                    textDecoration: "none",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  Register
                 </Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center" to="/login">
-                  <Link to={"/login"}>Login</Link>
+                <Typography
+                  component={RouterLink}
+                  textAlign="center"
+                  to="/login"
+                  sx={{
+                    color: "white",
+                    textDecoration: "none",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  Login
                 </Typography>
               </MenuItem>
             </Box>
