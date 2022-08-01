@@ -112,9 +112,17 @@ const ResponsiveAppBar = () => {
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography
                     textAlign="center"
-                    onClick={() => navigate("/update")}
+                    onClick={() => navigate("/profile")}
                   >
                     Profile
+                  </Typography>
+                </MenuItem>
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography
+                    textAlign="center"
+                    onClick={() => navigate("/newblog")}
+                  >
+                    New Blog
                   </Typography>
                 </MenuItem>
 

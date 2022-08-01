@@ -45,6 +45,7 @@ export const register = async (email, password, displayName, navigate) => {
   }
 };
 
+// Login function. firebase function
 export const login = async (email, password) => {
   try {
     const { user } = await signInWithEmailAndPassword(auth, email, password);
@@ -57,6 +58,7 @@ export const login = async (email, password) => {
   }
 };
 
+// Logout user function. firebase function
 export const logout = async () => {
   try {
     const { user } = await signOut(auth);
@@ -67,6 +69,7 @@ export const logout = async () => {
   }
 };
 
+// If the user is logged in, to keep it all the time.. firebase function
 onAuthStateChanged(auth, (user) => {
   if (user) {
     store.dispatch(loginUser(user));
@@ -75,6 +78,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+// Login user to google  function. firebase function
 export const signUpGoogle = () => {
   const provider = new GoogleAuthProvider();
   signInWithPopup(auth, provider)
