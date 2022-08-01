@@ -9,6 +9,12 @@ const theme = createTheme({
     primary: {
       main: indigo[300],
     },
+    secondary: {
+      light: "#eeeeee",
+      main: "#424242",
+      dark: "#000",
+      contrastText: "#000",
+    },
   },
 });
 
