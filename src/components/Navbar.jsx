@@ -50,7 +50,7 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ mb: 1 }}>
       <Container maxWidth="xl">
         <Toolbar
           sx={{ display: "flex", justifyContent: "space-between" }}

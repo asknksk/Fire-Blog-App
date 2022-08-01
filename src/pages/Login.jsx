@@ -133,7 +133,6 @@ export default function SignInSide() {
                 Sign In
               </Button>
               <Button
-                type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
