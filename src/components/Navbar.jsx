@@ -10,20 +10,27 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import cwJpeg from "../assets/cw.jpeg";
+import { logout } from "../auth/firebase";
+import { logoutUser } from "../store/auth";
+import { useDispatch, useSelector } from "react-redux";
 
-//! user will change
-const user = true;
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  // console.log(user);
+
+  // const handleOpenNavMenu = (event) => {
+  //   setAnchorElNav(event.currentTarget);
+  // };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
+    console.log(anchorElNav);
   };
 
   const handleCloseNavMenu = () => {
@@ -32,6 +39,14 @@ const ResponsiveAppBar = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    dispatch(logoutUser());
+    navigate("/", {
+      replace: true,
+    });
   };
 
   return (
@@ -91,11 +106,16 @@ const ResponsiveAppBar = () => {
                 onClose={handleCloseUserMenu}
               >
                 <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">Profile</Typography>
+                  <Typography
+                    textAlign="center"
+                    onClick={() => navigate("/update")}
+                  >
+                    Profile
+                  </Typography>
                 </MenuItem>
 
                 <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center" onClick={null}>
+                  <Typography textAlign="center" onClick={handleLogout}>
                     Logout
                   </Typography>
                 </MenuItem>
