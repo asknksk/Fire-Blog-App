@@ -11,6 +11,7 @@ import {
   signInWithPopup,
   onAuthStateChanged,
 } from "firebase/auth";
+import { getDatabase, push, ref, set } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -90,6 +91,19 @@ export const signUpGoogle = () => {
     .catch((error) => {
       console.log(error);
     });
+};
+
+// write database function add new content
+export const AddContentDatabase = (info) => {
+  const db = getDatabase(app);
+  const contentRef = ref(db, "blog/");
+  const newContentRef = push(contentRef);
+  set(newContentRef, {
+    userId: info.userId,
+    title: info.title,
+    imgUrl: info.imgUrl,
+    blogContent: info.imgUrl,
+  });
 };
 
 export default app;
