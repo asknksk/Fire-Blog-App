@@ -105,7 +105,7 @@ export const AddContentDatabase = (info) => {
     userEmail: info.userEmail,
     title: info.title,
     imgUrl: info.imgUrl,
-    blogContent: info.imgUrl,
+    blogContent: info.blogContent,
     date: info.date,
   });
 };

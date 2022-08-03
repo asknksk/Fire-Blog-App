@@ -19,8 +19,8 @@ export default function BlogCard({ content }) {
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
-        height="194"
-        image={placeHolderImg}
+        height="140"
+        image={content.imgUrl || placeHolderImg}
         alt="content-img"
       />
 
@@ -35,7 +35,7 @@ export default function BlogCard({ content }) {
       <Box sx={{ display: "flex", alignItems: "center", ml: 1 }}>
         <Avatar sx={{ m: 1, width: 24, height: 24 }} />
         <Typography variant="body1" color="secondary">
-          {user.uid}{" "}
+          {user.email}{" "}
         </Typography>
       </Box>
       <CardActions disableSpacing>

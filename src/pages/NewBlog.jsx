@@ -2,25 +2,21 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useDispatch, useSelector } from "react-redux";
-import addContent from "../store/content";
+import { useSelector } from "react-redux";
 import { AddContentDatabase } from "../auth/firebase";
 import moment from "moment";
 
 const initialValues = { title: "", imgUrl: "", blogContent: "" };
 
 export default function FormPropsTextFields() {
-  // const { content } = useSelector((state) => state.content);
   const { user } = useSelector((state) => state.auth);
-  // const dispatch = useDispatch();
-  const [info, setinfo] = useState(initialValues);
+  const [info, setInfo] = useState(initialValues);
 
   const handleChange = (e) => {
     e.preventDefault();
-    const current = new Date();
 
     const { name, value } = e.target;
-    setinfo({
+    setInfo({
       ...info,
       [name]: value,
       ["userId"]: user.uid,
@@ -32,6 +28,7 @@ export default function FormPropsTextFields() {
   const handleSubmit = (e) => {
     e.preventDefault();
     AddContentDatabase(info);
+    setInfo(initialValues);
   };
 
   return (
@@ -54,7 +51,7 @@ export default function FormPropsTextFields() {
         label="Title"
         name="title"
         sx={{ m: 2 }}
-        // value={info.title}
+        value={info.title}
         onChange={handleChange}
       />
 
@@ -63,7 +60,7 @@ export default function FormPropsTextFields() {
         id="outlined-required"
         label="Image URL "
         name="imgUrl"
-        // value={info.imgUrl}
+        value={info.imgUrl}
         onChange={handleChange}
         sx={{ m: 2 }}
       />
@@ -75,7 +72,7 @@ export default function FormPropsTextFields() {
         rows={4}
         sx={{ m: 2 }}
         name="blogContent"
-        // value={info.blogContent}
+        value={info.blogContent}
         onChange={handleChange}
       />
       <Button type="submit" variant="contained" sx={{ m: 2 }}>
