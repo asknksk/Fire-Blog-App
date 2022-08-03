@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import addContent from "../store/content";
 import { AddContentDatabase } from "../auth/firebase";
+import moment from "moment";
 
 const initialValues = { title: "", imgUrl: "", blogContent: "" };
 
@@ -16,19 +17,21 @@ export default function FormPropsTextFields() {
 
   const handleChange = (e) => {
     e.preventDefault();
+    const current = new Date();
 
     const { name, value } = e.target;
-    setinfo({ ...info, [name]: value, ["userId"]: user.uid });
+    setinfo({
+      ...info,
+      [name]: value,
+      ["userId"]: user.uid,
+      ["userEmail"]: user.providerData[0].uid,
+      ["date"]: moment().format("ll"),
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     AddContentDatabase(info);
-    // dispatch(addContent());
-    // console.log(content);
-    console.log(info);
-    // writeUserData(user.uid, title, imgUrl, blogContent)
-    // console.log(user.uid);
   };
 
   return (

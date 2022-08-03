@@ -11,7 +11,9 @@ import {
   signInWithPopup,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getDatabase, push, ref, set } from "firebase/database";
+import { getDatabase, onValue, push, ref, set } from "firebase/database";
+import { useEffect, useState } from "react";
+import { setContent } from "../store/content";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -100,10 +102,31 @@ export const AddContentDatabase = (info) => {
   const newContentRef = push(contentRef);
   set(newContentRef, {
     userId: info.userId,
+    userEmail: info.userEmail,
     title: info.title,
     imgUrl: info.imgUrl,
     blogContent: info.imgUrl,
+    date: info.date,
   });
 };
 
+// read database function
+export const useFetch = () => {
+  const [isLoading, setIsLoading] = useState();
+  useEffect(() => {
+    const db = getDatabase(app);
+    const userRef = ref(db, "blog/");
+    onValue(userRef, (snapshot) => {
+      const data = snapshot.val();
+      const contentId = [];
+
+      for (let id in data) {
+        contentId.push({ id, ...data[id] });
+      }
+      store.dispatch(setContent(contentId));
+      setIsLoading(false);
+    });
+  }, []);
+  return { isLoading };
+};
 export default app;
