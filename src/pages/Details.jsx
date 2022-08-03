@@ -12,6 +12,7 @@ import placeHolderImg from "../assets/placeholder.png";
 import Box from "@mui/material/Box";
 import { DeleteButton, UpdateButton } from "../utils/buttons/Buttons";
 import { useSelector } from "react-redux";
+import { DeleteContent } from "../auth/firebase";
 
 export default function Details() {
   const { state } = useLocation();
@@ -84,7 +85,7 @@ export default function Details() {
         {user?.uid === state?.userId ? (
           <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
             <UpdateButton onClick={handleUpdate}>UPDATE</UpdateButton>
-            <DeleteButton>DELETE</DeleteButton>
+            <DeleteButton onClick={()=> DeleteContent(state.id, navigate)}>DELETE</DeleteButton>
           </Box>
         ) : null}
       </Card>

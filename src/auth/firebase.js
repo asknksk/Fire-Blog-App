@@ -16,6 +16,7 @@ import {
   onValue,
   push,
   ref,
+  remove,
   set,
   update,
 } from "firebase/database";
@@ -148,6 +149,13 @@ export const UpdateBlogContent = async (info, navigate) => {
   alert("Success change");
   navigate("/");
   return update(ref(db), updates);
+};
+
+export const DeleteContent = (id, navigate) => {
+  const db = getDatabase(app);
+  remove(ref(db, "blog/" + id));
+  navigate("/");
+  alert("Deleted Successfully");
 };
 
 export default app;
