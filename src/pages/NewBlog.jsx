@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -26,15 +26,19 @@ export default function NewBlog() {
     console.log(user);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  useEffect(() => {
     setInfo({
       ...values,
       userId: user.uid,
       userEmail: user.providerData[0].email,
       date: moment().format("ll"),
     });
-    AddContentDatabase(info, navigate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await AddContentDatabase(info, navigate);
     // setInfo(initialValues);
   };
 

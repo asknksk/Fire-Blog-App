@@ -28,19 +28,21 @@ export default function UpdateBlog() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  useEffect(() => {
     setInfo({
       ...values,
       userId: user.uid,
       userEmail: user.providerData[0].email,
       date: moment().format("ll"),
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
     console.log(info);
-    UpdateBlogContents(info, navigate);
-  };
-  const UpdateBlogContents = async () => {
-    return await UpdateBlogContent(info, navigate);
+    UpdateBlogContent(info, navigate);
   };
 
   return (

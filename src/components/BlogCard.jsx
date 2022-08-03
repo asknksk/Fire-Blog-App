@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function BlogCard({ content }) {
+  const [isValid, setIsValid] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
@@ -27,13 +28,28 @@ export default function BlogCard({ content }) {
     });
   };
 
+  function checkImage(url) {
+    var image = new Image();
+    image.onload = function () {
+      if (this.width > 0) {
+        setIsValid(true);
+      }
+    };
+    image.onerror = function () {
+      setIsValid(false);
+    };
+    image.src = url;
+  }
+
+  checkImage(content.imgUrl);
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <Box onClick={openDetails} sx={{ cursor: "pointer" }}>
         <CardMedia
           component="img"
           height="140"
-          image={content.imgUrl || placeHolderImg}
+          image={isValid ? content.imgUrl : placeHolderImg}
           alt="content-img"
         />
 

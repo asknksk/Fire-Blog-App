@@ -90,34 +90,43 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // Login user to google  function. firebase function
-export const signUpGoogle = () => {
-  const provider = new GoogleAuthProvider();
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      console.log(result);
+export const signUpGoogle = async () => {
+  try {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log(result);
 
-      alert("Logged out successfully!");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+        alert("Logged out successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
+const db = getDatabase(app);
+const contentRef = ref(db, "blog/");
+
 // write database function add new content
-export const AddContentDatabase = (info, navigate) => {
-  const db = getDatabase(app);
-  const contentRef = ref(db, "blog/");
-  const newContentRef = push(contentRef);
-  set(newContentRef, {
-    userId: info.userId,
-    userEmail: info.userEmail,
-    title: info.title,
-    imgUrl: info.imgUrl,
-    blogContent: info.blogContent,
-    date: info.date,
-  });
-  alert("Success added");
-  navigate("/");
+export const AddContentDatabase = async (info, navigate) => {
+  try {
+    const newContentRef = push(contentRef);
+    set(newContentRef, {
+      userId: info.userId,
+      userEmail: info.userEmail,
+      title: info.title,
+      imgUrl: info.imgUrl,
+      blogContent: info.blogContent,
+      date: info.date,
+    });
+    alert("Success added");
+    navigate("/");
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 // read database function
