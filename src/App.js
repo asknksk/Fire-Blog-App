@@ -8,9 +8,10 @@ const theme = createTheme({
   palette: {
     primary: {
       main: indigo[300],
+      light: indigo[50],
     },
     secondary: {
-      light: "#eeeeee",
+      light: "#9e9e9e",
       main: "#424242",
       dark: "#000",
       contrastText: "#000",

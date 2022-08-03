@@ -20,9 +20,10 @@ export default function FormPropsTextFields() {
       ...info,
       [name]: value,
       ["userId"]: user.uid,
-      ["userEmail"]: user.providerData[0].uid,
+      ["userEmail"]: user.providerData[0].email,
       ["date"]: moment().format("ll"),
     });
+    console.log(user);
   };
 
   const handleSubmit = (e) => {

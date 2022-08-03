@@ -18,7 +18,7 @@ export default function BlogCard({ content }) {
   const navigate = useNavigate();
 
   const openDetails = () => {
-    const { id, blogContent, date, imgUrl, title, userEmail, userId } = content
+    const { id, blogContent, date, imgUrl, title, userEmail, userId } = content;
     if (!user) {
       alert("Login for detials of blog!");
     }
@@ -28,26 +28,35 @@ export default function BlogCard({ content }) {
   };
 
   return (
-    <Card sx={{ maxWidth: 345, cursor: "pointer" }} onClick={openDetails}>
-      <CardMedia
-        component="img"
-        height="140"
-        image={content.imgUrl || placeHolderImg}
-        alt="content-img"
-      />
+    <Card sx={{ maxWidth: 345 }}>
+      <Box onClick={openDetails} sx={{ cursor: "pointer" }}>
+        <CardMedia
+          component="img"
+          height="140"
+          image={content.imgUrl || placeHolderImg}
+          alt="content-img"
+        />
 
-      <CardContent>
-        <Typography variant="body2" color="secondary">
-          {content.title}
-        </Typography>
-        <Typography variant="body2" color="secondary">
-          {content.blogContent}
-        </Typography>
-      </CardContent>
+        <CardContent sx={{ bgcolor: "primary.light" }}>
+          <Typography
+            variant="h4"
+            color="primary"
+            sx={{ fontFamily: "Girassol" }}
+          >
+            {content.title}
+          </Typography>
+          <Typography variant="body2" color="secondary.light">
+            {content.date}
+          </Typography>
+          <Typography variant="body1" color="secondary">
+            {content.blogContent}
+          </Typography>
+        </CardContent>
+      </Box>
       <Box sx={{ display: "flex", alignItems: "center", ml: 1 }}>
         <Avatar sx={{ m: 1, width: 24, height: 24 }} />
         <Typography variant="body1" color="secondary">
-          {user.email}{" "}
+          {content.userEmail}{" "}
         </Typography>
       </Box>
       <CardActions disableSpacing>

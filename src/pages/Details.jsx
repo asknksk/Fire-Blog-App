@@ -9,21 +9,39 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import ReplyAllIcon from "@mui/icons-material/ReplyAll";
 import placeHolderImg from "../assets/placeholder.png";
-
-const randomImage = "https://picsum.photos/600/400";
+import Box from "@mui/material/Box";
+import { DeleteButton, UpdateButton } from "../utils/buttons/Buttons";
+import { useSelector } from "react-redux";
 
 export default function Details() {
   const { state } = useLocation();
   // id, blogContent, date, imgUrl, title, userEmail, userId
+  const { user } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
 
   return (
-    <div style={{ minHeight: "100vh", padding: "5rem 0" }}>
-      <Card sx={{ maxWidth: 600, width: "90%", margin: "auto" }}>
+    <div style={{ minHeight: "100vh" }}>
+      <Typography
+        sx={{ fontFamily: "Girassol", textAlign: "center", color: "primary" }}
+        variant="h2"
+        noWrap
+      >
+        ──── Details ────
+      </Typography>
+      <Card
+        sx={{
+          maxWidth: 600,
+          width: "90%",
+          margin: "auto",
+        }}
+      >
         <CardHeader
           title={
-            <Typography variant="h4" sx={{ textAlign: "center" }}>
+            <Typography
+              variant="h4"
+              sx={{ textAlign: "center", fontFamily: "Girassol" }}
+            >
               {state.title.toUpperCase()}
             </Typography>
           }
@@ -31,14 +49,19 @@ export default function Details() {
         <CardMedia
           component="img"
           height="max-content"
-          image={state.imageUrl ? state.imageUrl : randomImage}
+          image={state.imageUrl ? state.imageUrl : placeHolderImg}
           alt={state.title}
         />
-        <CardContent>
-          <Typography variant="body2" color="text.secondary">
+        <CardContent sx={{ bgcolor: "primary.light" }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ fontFamily: "Girassol", fontSize: "1.5rem" }}
+          >
             {state.blogContent}
           </Typography>
         </CardContent>
+
         <CardActions disableSpacing sx={{ textAlign: "center" }}>
           <IconButton>
             <ReplyAllIcon
@@ -47,6 +70,13 @@ export default function Details() {
             />
           </IconButton>
         </CardActions>
+
+        {user?.uid === state?.userId ? (
+          <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
+            <UpdateButton>UPDATE</UpdateButton>
+            <DeleteButton>DELETE</DeleteButton>
+          </Box>
+        ) : null}
       </Card>
     </div>
   );
