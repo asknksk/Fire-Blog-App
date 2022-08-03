@@ -58,8 +58,8 @@ export default function Details() {
         />
         <CardMedia
           component="img"
-          height="max-content"
-          image={state.imageUrl ? state.imageUrl : placeHolderImg}
+          height="300px"
+          image={state.imgUrl ? state.imgUrl : placeHolderImg}
           alt={state.title}
         />
         <CardContent sx={{ bgcolor: "primary.light" }}>

@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { UpdateBlogContent } from "../auth/firebase";
 
 export default function UpdateBlog() {
   const { state } = useLocation();
@@ -14,8 +16,7 @@ export default function UpdateBlog() {
   const { user } = useSelector((state) => state.auth);
   const [values, setValues] = useState(state);
   const [info, setInfo] = useState("");
-
-  //   console.log(state, "singleContent");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -25,7 +26,6 @@ export default function UpdateBlog() {
       ...values,
       [name]: value,
     });
-    // console.log(user);
   };
 
   const handleSubmit = (e) => {
@@ -36,8 +36,12 @@ export default function UpdateBlog() {
       userEmail: user.providerData[0].email,
       date: moment().format("ll"),
     });
+    console.log(info);
+    UpdateBlogContents(info, navigate);
   };
-  console.log(info);
+  const UpdateBlogContents = async () => {
+    return await UpdateBlogContent(info, navigate);
+  };
 
   return (
     <Box
@@ -84,7 +88,7 @@ export default function UpdateBlog() {
         onChange={handleChange}
       />
       <Button type="submit" variant="contained" sx={{ m: 2 }}>
-        Add Blog{" "}
+        Update Blog{" "}
       </Button>
     </Box>
   );

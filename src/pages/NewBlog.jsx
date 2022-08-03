@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import { useSelector } from "react-redux";
 import { AddContentDatabase } from "../auth/firebase";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = { title: "", imgUrl: "", blogContent: "" };
 
@@ -12,6 +13,7 @@ export default function NewBlog() {
   const { user } = useSelector((state) => state.auth);
   const [values, setValues] = useState(initialValues);
   const [info, setInfo] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -32,8 +34,8 @@ export default function NewBlog() {
       userEmail: user.providerData[0].email,
       date: moment().format("ll"),
     });
-    AddContentDatabase(info);
-    setInfo(initialValues);
+    AddContentDatabase(info, navigate);
+    // setInfo(initialValues);
   };
 
   return (

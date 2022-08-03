@@ -12,7 +12,6 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import {
-  child,
   getDatabase,
   onValue,
   push,
@@ -104,7 +103,7 @@ export const signUpGoogle = () => {
 };
 
 // write database function add new content
-export const AddContentDatabase = (info) => {
+export const AddContentDatabase = (info, navigate) => {
   const db = getDatabase(app);
   const contentRef = ref(db, "blog/");
   const newContentRef = push(contentRef);
@@ -116,6 +115,8 @@ export const AddContentDatabase = (info) => {
     blogContent: info.blogContent,
     date: info.date,
   });
+  alert("Success added");
+  navigate("/");
 };
 
 // read database function
@@ -139,11 +140,13 @@ export const useFetch = () => {
 };
 
 // Update database function
-export const UpdateBlog = (info) => {
+export const UpdateBlogContent = async (info, navigate) => {
   const db = getDatabase(app);
   const updates = {};
+  console.log(info.id);
   updates["blog/" + info.id] = info;
-
+  alert("Success change");
+  navigate("/");
   return update(ref(db), updates);
 };
 
