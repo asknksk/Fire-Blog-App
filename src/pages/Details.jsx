@@ -20,6 +20,16 @@ export default function Details() {
 
   const navigate = useNavigate();
 
+  const handleUpdate = () => {
+    const { id, blogContent, date, imgUrl, title, userEmail, userId } = state;
+    if (!user) {
+      alert("Login for update of this blog!");
+    }
+    navigate(`/updateblog/${id}`, {
+      state: { id, blogContent, date, imgUrl, title, userEmail, userId },
+    });
+  };
+
   return (
     <div style={{ minHeight: "100vh" }}>
       <Typography
@@ -73,7 +83,7 @@ export default function Details() {
 
         {user?.uid === state?.userId ? (
           <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
-            <UpdateButton>UPDATE</UpdateButton>
+            <UpdateButton onClick={handleUpdate}>UPDATE</UpdateButton>
             <DeleteButton>DELETE</DeleteButton>
           </Box>
         ) : null}

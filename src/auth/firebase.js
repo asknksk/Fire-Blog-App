@@ -11,7 +11,15 @@ import {
   signInWithPopup,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getDatabase, onValue, push, ref, set } from "firebase/database";
+import {
+  child,
+  getDatabase,
+  onValue,
+  push,
+  ref,
+  set,
+  update,
+} from "firebase/database";
 import { useEffect, useState } from "react";
 import { setContent } from "../store/content";
 
@@ -54,7 +62,7 @@ export const login = async (email, password) => {
     const { user } = await signInWithEmailAndPassword(auth, email, password);
     loginUser(user);
     alert("Login Success");
-    console.log(user);
+
     return user;
   } catch (error) {
     console.log(error.message);
@@ -129,4 +137,14 @@ export const useFetch = () => {
   }, []);
   return { isLoading };
 };
+
+// Update database function
+export const UpdateBlog = (info) => {
+  const db = getDatabase(app);
+  const updates = {};
+  updates["blog/" + info.id] = info;
+
+  return update(ref(db), updates);
+};
+
 export default app;

@@ -3,15 +3,19 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useSelector } from "react-redux";
-import { AddContentDatabase } from "../auth/firebase";
 import moment from "moment";
+import { useLocation } from "react-router-dom";
 
-const initialValues = { title: "", imgUrl: "", blogContent: "" };
+export default function UpdateBlog() {
+  const { state } = useLocation();
 
-export default function NewBlog() {
+  // id, blogContent, date, imgUrl, title, userEmail, userId
+
   const { user } = useSelector((state) => state.auth);
-  const [values, setValues] = useState(initialValues);
+  const [values, setValues] = useState(state);
   const [info, setInfo] = useState("");
+
+  //   console.log(state, "singleContent");
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -21,7 +25,7 @@ export default function NewBlog() {
       ...values,
       [name]: value,
     });
-    console.log(user);
+    // console.log(user);
   };
 
   const handleSubmit = (e) => {
@@ -32,9 +36,8 @@ export default function NewBlog() {
       userEmail: user.providerData[0].email,
       date: moment().format("ll"),
     });
-    AddContentDatabase(info);
-    setInfo(initialValues);
   };
+  console.log(info);
 
   return (
     <Box
@@ -56,7 +59,7 @@ export default function NewBlog() {
         label="Title"
         name="title"
         sx={{ m: 2 }}
-        value={info.title}
+        value={values.title}
         onChange={handleChange}
       />
 
@@ -65,7 +68,7 @@ export default function NewBlog() {
         id="outlined-required"
         label="Image URL "
         name="imgUrl"
-        value={info.imgUrl}
+        value={values.imgUrl}
         onChange={handleChange}
         sx={{ m: 2 }}
       />
@@ -77,7 +80,7 @@ export default function NewBlog() {
         rows={4}
         sx={{ m: 2 }}
         name="blogContent"
-        value={info.blogContent}
+        value={values.blogContent}
         onChange={handleChange}
       />
       <Button type="submit" variant="contained" sx={{ m: 2 }}>

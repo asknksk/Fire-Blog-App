@@ -9,6 +9,7 @@ export const DeleteButton = styled(Button)(({ theme }) => ({
     backgroundColor: red[700],
   },
 }));
+
 export const UpdateButton = styled(Button)(({ theme }) => ({
   color: "white",
   backgroundColor: lightBlue[500],
