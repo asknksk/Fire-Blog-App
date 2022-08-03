@@ -167,4 +167,5 @@ export const DeleteContent = (id, navigate) => {
   alert("Deleted Successfully");
 };
 
+
 export default app;
