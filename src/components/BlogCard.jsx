@@ -11,12 +11,24 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import Box from "@mui/material/Box";
 import placeHolderImg from "../assets/placeholder.png";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function BlogCard({ content }) {
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  const openDetails = () => {
+    const { id, blogContent, date, imgUrl, title, userEmail, userId } = content
+    if (!user) {
+      alert("Login for detials of blog!");
+    }
+    navigate(`/detail/${id}`, {
+      state: { id, blogContent, date, imgUrl, title, userEmail, userId },
+    });
+  };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, cursor: "pointer" }} onClick={openDetails}>
       <CardMedia
         component="img"
         height="140"
