@@ -25,14 +25,18 @@ export default function NewBlog() {
     });
     console.log(user);
   };
-
   useEffect(() => {
     setInfo({
       ...values,
       userId: user.uid,
       userEmail: user.providerData[0].email,
       date: moment().format("ll"),
+      countLike: 0,
+      likes: [""],
+
+      // comment: [{userId: 1111, "comment": "12124"}],
     });
+    // comment: [...values.comment, {userıd}]
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values]);
 

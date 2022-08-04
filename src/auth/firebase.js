@@ -12,7 +12,7 @@ import {
   onAuthStateChanged,
   updatePassword,
   reauthenticateWithCredential,
-  EmailAuthProvider
+  EmailAuthProvider,
 } from "firebase/auth";
 import {
   getDatabase,
@@ -74,13 +74,16 @@ export const login = async (email, password) => {
 };
 
 // re-login for reset password.
-export const reAuth = async password => {
+export const reAuth = async (password) => {
   try {
     const credential = await EmailAuthProvider.credential(
       auth.currentUser.email,
       password
-    )
-    const { user } = await reauthenticateWithCredential(auth.currentUser, credential);
+    );
+    const { user } = await reauthenticateWithCredential(
+      auth.currentUser,
+      credential
+    );
     alert("Relogin success");
 
     return user;
@@ -117,7 +120,7 @@ export const signUpGoogle = async () => {
       .then((result) => {
         console.log(result);
 
-        alert("Logged out successfully!");
+        alert("Logged in successfully!");
       })
       .catch((error) => {
         console.log(error);
@@ -155,6 +158,8 @@ export const changePassword = async (password) => {
   }
 };
 
+//--------- DATABASE FUNCTIONS ---------------
+
 const db = getDatabase(app);
 const contentRef = ref(db, "blog/");
 
@@ -169,6 +174,9 @@ export const AddContentDatabase = async (info, navigate) => {
       imgUrl: info.imgUrl,
       blogContent: info.blogContent,
       date: info.date,
+      countLike: 0,
+      likes: [""],
+      // comment: ["deneme1", "deneme2", "deneme3"]
     });
     alert("Success added");
     navigate("/");
@@ -208,11 +216,34 @@ export const UpdateBlogContent = async (info, navigate) => {
   return update(ref(db), updates);
 };
 
+// Delete content on database function
 export const DeleteContent = (id, navigate) => {
   const db = getDatabase(app);
   remove(ref(db, "blog/" + id));
   navigate("/");
   alert("Deleted Successfully");
+};
+
+// Update Like
+
+export const increaseFav = async (info, userId) => {
+  update(ref(db, "blog/" + info.id), {
+    ...info,
+    countLike: +info.countLike + 1,
+    likes: [...info.likes, userId],
+  });
+};
+export const decreaseFav = async (info, userId) => {
+  const index = info.likes.findIndex((c) => c === userId);
+
+  update(ref(db, "blog/" + info.id), {
+    ...info,
+    countLike: +info.countLike - 1,
+    likes: [
+      ...info.likes.slice(0, index),
+      ...info.likes.slice(index + 1, info.likes.length),
+    ],
+  });
 };
 
 export default app;

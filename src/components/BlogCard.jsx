@@ -12,10 +12,13 @@ import Box from "@mui/material/Box";
 import placeHolderImg from "../assets/placeholder.png";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { decreaseFav, increaseFav } from "../auth/firebase";
 
 export default function BlogCard({ content }) {
   const [isValid, setIsValid] = useState(false);
+  const [favRed, setFavRed] = useState(false);
   const { user } = useSelector((state) => state.auth);
+
   const navigate = useNavigate();
 
   const openDetails = () => {
@@ -26,6 +29,22 @@ export default function BlogCard({ content }) {
     navigate(`/detail/${id}`, {
       state: { id, blogContent, date, imgUrl, title, userEmail, userId },
     });
+  };
+
+  const handleLike = () => {
+    if (user) {
+      if (!Object.values(content.likes).includes(user.uid)) {
+        setFavRed(true);
+        increaseFav(content, user.uid);
+      } else {
+        setFavRed(false);
+        decreaseFav(content, user.uid);
+      }
+    } else {
+      alert("You should login first");
+    }
+
+    console.log(content.countLike);
   };
 
   function checkImage(url) {
@@ -76,11 +95,15 @@ export default function BlogCard({ content }) {
         </Typography>
       </Box>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton
+          aria-label="add to favorites"
+          sx={favRed && { color: "red" }}
+          onClick={() => handleLike()}
+        >
           <FavoriteIcon />
         </IconButton>
         <Typography variant="body2" color="text.secondary">
-          0{" "}
+          {content.countLike || 0}
         </Typography>
         <IconButton aria-label="add to comment">
           <ChatBubbleOutlineIcon />

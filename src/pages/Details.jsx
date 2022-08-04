@@ -13,6 +13,8 @@ import Box from "@mui/material/Box";
 import { DeleteButton, UpdateButton } from "../utils/buttons/Buttons";
 import { useSelector } from "react-redux";
 import { DeleteContent } from "../auth/firebase";
+import { Paper } from "@mui/material";
+import Comments from "../components/Comments";
 
 export default function Details() {
   const { state } = useLocation();
@@ -32,63 +34,76 @@ export default function Details() {
   };
 
   return (
-    <div style={{ minHeight: "100vh" }}>
-      <Typography
-        sx={{ fontFamily: "Girassol", textAlign: "center", color: "primary" }}
-        variant="h2"
-        noWrap
-      >
-        ──── Details ────
-      </Typography>
-      <Card
-        sx={{
-          maxWidth: 600,
-          width: "90%",
-          margin: "auto",
-        }}
-      >
-        <CardHeader
-          title={
+    <div>
+      <div style={{ minHeight: "100vh" }}>
+        <Typography
+          sx={{ fontFamily: "Girassol", textAlign: "center", color: "primary" }}
+          variant="h2"
+          noWrap
+        >
+          ──── Details ────
+        </Typography>
+        <Card
+          sx={{
+            maxWidth: 600,
+            width: "90%",
+            margin: "auto",
+          }}
+        >
+          <CardHeader
+            title={
+              <Typography
+                variant="h4"
+                sx={{ textAlign: "center", fontFamily: "Girassol" }}
+              >
+                {state.title.toUpperCase()}
+              </Typography>
+            }
+          />
+          <CardMedia
+            component="img"
+            height="300px"
+            image={state.imgUrl ? state.imgUrl : placeHolderImg}
+            alt={state.title}
+          />
+          <CardContent sx={{ bgcolor: "primary.light" }}>
             <Typography
-              variant="h4"
-              sx={{ textAlign: "center", fontFamily: "Girassol" }}
+              variant="body2"
+              color="text.secondary"
+              sx={{ fontFamily: "Girassol", fontSize: "1.5rem" }}
             >
-              {state.title.toUpperCase()}
+              {state.blogContent}
             </Typography>
-          }
-        />
-        <CardMedia
-          component="img"
-          height="300px"
-          image={state.imgUrl ? state.imgUrl : placeHolderImg}
-          alt={state.title}
-        />
-        <CardContent sx={{ bgcolor: "primary.light" }}>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ fontFamily: "Girassol", fontSize: "1.5rem" }}
-          >
-            {state.blogContent}
-          </Typography>
-        </CardContent>
+          </CardContent>
 
-        <CardActions disableSpacing sx={{ textAlign: "center" }}>
-          <IconButton>
-            <ReplyAllIcon
-              sx={{ color: "green" }}
-              onClick={() => navigate(-1)}
-            />
-          </IconButton>
-        </CardActions>
+          <CardActions disableSpacing sx={{ textAlign: "center" }}>
+            <IconButton>
+              <ReplyAllIcon
+                sx={{ color: "green" }}
+                onClick={() => navigate(-1)}
+              />
+            </IconButton>
+          </CardActions>
 
-        {user?.uid === state?.userId ? (
-          <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
-            <UpdateButton onClick={handleUpdate}>UPDATE</UpdateButton>
-            <DeleteButton onClick={()=> DeleteContent(state.id, navigate)}>DELETE</DeleteButton>
-          </Box>
-        ) : null}
-      </Card>
+          {user?.uid === state?.userId ? (
+            <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
+              <UpdateButton onClick={handleUpdate}>UPDATE</UpdateButton>
+              <DeleteButton onClick={() => DeleteContent(state.id, navigate)}>
+                DELETE
+              </DeleteButton>
+            </Box>
+          ) : null}
+        </Card>
+      </div>
+      <div style={{ padding: 14 }} className="App">
+        <h1>Comments</h1>
+        <Paper style={{ padding: "40px 20px" }}>
+          {/* map işlemi yapılacak gridlerde  */}
+          <Comments />
+          <Comments />
+          <Comments />
+        </Paper>
+      </div>
     </div>
   );
 }
