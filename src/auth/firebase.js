@@ -107,6 +107,16 @@ export const signUpGoogle = async () => {
   }
 };
 
+// Update Profile function
+export const updateUser = async (data) => {
+  try {
+    await updateProfile(auth.currentUser, data);
+    alert("Profile Updated");
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
 const db = getDatabase(app);
 const contentRef = ref(db, "blog/");
 
@@ -166,6 +176,5 @@ export const DeleteContent = (id, navigate) => {
   navigate("/");
   alert("Deleted Successfully");
 };
-
 
 export default app;
