@@ -11,7 +11,6 @@ const content = createSlice({
     setContent: (state, action) => {
       state.content = action.payload;
     },
- 
   },
 });
 

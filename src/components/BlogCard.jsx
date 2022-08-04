@@ -13,10 +13,11 @@ import placeHolderImg from "../assets/placeholder.png";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { decreaseFav, increaseFav } from "../auth/firebase";
+import { render } from "@testing-library/react";
 
 export default function BlogCard({ content }) {
   const [isValid, setIsValid] = useState(false);
-  const [favRed, setFavRed] = useState(false);
+  const [red, setRed] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
@@ -34,11 +35,11 @@ export default function BlogCard({ content }) {
   const handleLike = () => {
     if (user) {
       if (!Object.values(content.likes).includes(user.uid)) {
-        setFavRed(true);
         increaseFav(content, user.uid);
+        setRed(true);
       } else {
-        setFavRed(false);
         decreaseFav(content, user.uid);
+        setRed(false);
       }
     } else {
       alert("You should login first");
@@ -95,13 +96,16 @@ export default function BlogCard({ content }) {
         </Typography>
       </Box>
       <CardActions disableSpacing>
+        {/* {red ? ( */}
         <IconButton
           aria-label="add to favorites"
-          sx={favRed && { color: "red" }}
+          sx={red && { color: "red" }}
           onClick={() => handleLike()}
         >
+          {" "}
           <FavoriteIcon />
         </IconButton>
+
         <Typography variant="body2" color="text.secondary">
           {content.countLike || 0}
         </Typography>
