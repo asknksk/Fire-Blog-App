@@ -18,6 +18,9 @@ export default function Profile() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const [isOpen, setIsOpen] = useState(false);
+  const handleOpen = () => setIsOpen(true);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await updateUser({ displayName, photoURL: avatar });
@@ -31,12 +34,12 @@ export default function Profile() {
     const result = await changePassword(password);
     if (result) {
       setPassword("");
-    }
+    } else handleOpen();
   };
 
   return (
     <>
-      {open && <Modal />}
+      {open && <Modal name={open} data={data} handleOpen={handleOpen} isOpen={isOpen} setIsOpen={setIsOpen}/>}
       <Container component="main" maxWidth="xs">
         <Box
           sx={{

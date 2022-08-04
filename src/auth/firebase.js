@@ -11,6 +11,8 @@ import {
   signInWithPopup,
   onAuthStateChanged,
   updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider
 } from "firebase/auth";
 import {
   getDatabase,
@@ -23,6 +25,7 @@ import {
 } from "firebase/database";
 import { useEffect, useState } from "react";
 import { setContent } from "../store/content";
+import { openModal } from "../store/modal";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -63,6 +66,22 @@ export const login = async (email, password) => {
     const { user } = await signInWithEmailAndPassword(auth, email, password);
     loginUser(user);
     alert("Login Success");
+
+    return user;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+// re-login for reset password.
+export const reAuth = async password => {
+  try {
+    const credential = await EmailAuthProvider.credential(
+      auth.currentUser.email,
+      password
+    )
+    const { user } = await reauthenticateWithCredential(auth.currentUser, credential);
+    alert("Relogin success");
 
     return user;
   } catch (error) {
@@ -125,7 +144,14 @@ export const changePassword = async (password) => {
     alert("Your password changed ");
     return true;
   } catch (error) {
-    alert(error.message);
+    if (error.code === "auth/requires-recent-login") {
+      store.dispatch(
+        openModal({
+          name: "re-auth-modal",
+        })
+      );
+    }
+    console.log(error.message);
   }
 };
 
