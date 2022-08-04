@@ -90,7 +90,10 @@ const ResponsiveAppBar = () => {
                   <Typography sx={{ color: "white", mr: 2 }}>
                     {user.displayName}
                   </Typography>
-                  <Avatar alt="Remy Sharp" />
+                  <Avatar
+                    alt={user.displayName}
+                    src={user.photoURL || "/static/images/avatar/1.jpg"}
+                  />
                 </IconButton>
               </Tooltip>
               <Menu

@@ -10,6 +10,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   onAuthStateChanged,
+  updatePassword,
 } from "firebase/auth";
 import {
   getDatabase,
@@ -112,6 +113,17 @@ export const updateUser = async (data) => {
   try {
     await updateProfile(auth.currentUser, data);
     alert("Profile Updated");
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+// Change password function
+export const changePassword = async (password) => {
+  try {
+    await updatePassword(auth.currentUser, password);
+    alert("Your password changed ");
+    return true;
   } catch (error) {
     alert(error.message);
   }
