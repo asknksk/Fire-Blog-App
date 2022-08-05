@@ -15,7 +15,6 @@ import { useSelector } from "react-redux";
 import { DeleteContent } from "../auth/firebase";
 import { Paper } from "@mui/material";
 import Comments from "../components/Comments";
-import content from "../store/content";
 
 export default function Details() {
   const { state } = useLocation();

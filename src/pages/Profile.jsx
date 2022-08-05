@@ -30,7 +30,6 @@ export default function Profile() {
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
-
     const result = await changePassword(password);
     if (result) {
       setPassword("");
