@@ -10,7 +10,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import Box from "@mui/material/Box";
 import placeHolderImg from "../assets/placeholder.png";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { decreaseFav, increaseFav } from "../auth/firebase";
 import Modal from "../components/Modal";
@@ -21,12 +21,10 @@ import { setComment } from "../store/clickedComment";
 export default function BlogCard({ content, redLike, setRedLike }) {
   const [isValid, setIsValid] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  const { clickedComment } = useSelector((state) => state.clickedComment);
 
   const { open, data } = useSelector((state) => state.modal);
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen(true);
-  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useSelector } from "react-redux";
 import { UpdateComment } from "../../auth/firebase";
+import moment from "moment";
 
 export default function AddCommentModal({ handleClose }) {
   const { user } = useSelector((state) => state.auth);
   const { clickedComment } = useSelector((state) => state.clickedComment);
-  const { content } = useSelector((state) => state.content);
   const [info, setInfo] = useState("");
 
   // comment: [
@@ -20,15 +20,32 @@ export default function AddCommentModal({ handleClose }) {
   //   },
   // ],
   const [singleComment, setSingleComment] = useState("");
+  useEffect(() => {
+    let deneme = {
+      comment: singleComment,
+      commentEmail: user.providerData[0].email,
+      commentImgUrl: user.photoURL,
+      commentTime: moment().format("LLL"),
+    };
+    setInfo({
+      ...clickedComment,
+      comment: {
+        ...clickedComment.comment,
+        deneme,
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [singleComment]);
   const handleAddComment = (e) => {
     e.preventDefault();
-    console.log(clickedComment);
-
-    UpdateComment();
+    // console.log(clickedComment);
+    console.log(info);
+    // UpdateComment();
     // alert(user.providerData[0].email);
     // alert(user.photoURL);
     handleClose();
   };
+
   return (
     <Box
       component="form"
