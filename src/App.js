@@ -3,6 +3,7 @@ import store from "./store/index";
 import { Provider } from "react-redux";
 import { indigo } from "@mui/material/colors";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ToastContainer } from "react-toastify";
 
 const theme = createTheme({
   palette: {
@@ -23,6 +24,7 @@ function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
+        <ToastContainer />
         <AppRouter />
       </ThemeProvider>
     </Provider>

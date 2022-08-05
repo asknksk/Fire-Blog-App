@@ -41,7 +41,6 @@ export default function UpdateBlog() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(info);
     UpdateBlogContent(info, navigate);
   };
 

@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { DeleteContent } from "../auth/firebase";
 import { Paper } from "@mui/material";
 import Comments from "../components/Comments";
+import { toastWarnNotify } from "../utils/customToastify";
 
 export default function Details() {
   const { state } = useLocation();
@@ -25,13 +26,12 @@ export default function Details() {
   const handleUpdate = () => {
     const { id, blogContent, date, imgUrl, title, userEmail, userId } = state;
     if (!user) {
-      alert("Login for update of this blog!");
+      toastWarnNotify("Login for update of this blog!");
     }
     navigate(`/updateblog/${id}`, {
       state: { id, blogContent, date, imgUrl, title, userEmail, userId },
     });
   };
-  console.log(Object.keys(state.comment).length);
 
   return (
     <div>

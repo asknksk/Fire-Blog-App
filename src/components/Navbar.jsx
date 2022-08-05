@@ -23,11 +23,7 @@ const ResponsiveAppBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  // console.log(user);
-
-  // const handleOpenNavMenu = (event) => {
-  //   setAnchorElNav(event.currentTarget);
-  // };
+ 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
     console.log(anchorElNav);

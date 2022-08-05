@@ -17,6 +17,7 @@ import Modal from "../components/Modal";
 import { openModal } from "../store/modal";
 import store from "../store";
 import { setComment } from "../store/clickedComment";
+import { toastWarnNotify } from "../utils/customToastify";
 
 export default function BlogCard({ content }) {
   const [isValid, setIsValid] = useState(false);
@@ -32,7 +33,7 @@ export default function BlogCard({ content }) {
     const { id, blogContent, date, imgUrl, title, userEmail, userId, comment } =
       content;
     if (!user) {
-      alert("Login for detials of blog!");
+      toastWarnNotify("Login for detials of blog!");
     }
     navigate(`/detail/${id}`, {
       state: {
@@ -56,10 +57,8 @@ export default function BlogCard({ content }) {
         decreaseFav(content, user.uid);
       }
     } else {
-      alert("You should login first");
+      toastWarnNotify("You should login first");
     }
-
-    console.log(content.countLike);
   };
 
   const handleComment = () => {
@@ -72,15 +71,9 @@ export default function BlogCard({ content }) {
         })
       );
     } else {
-      alert("You must login");
+      toastWarnNotify("You must login");
     }
   };
-
-  // function chechkLike() {
-  //   if (Object.values(content.likes).includes(user.uid)) {
-  //     setRedLike(true);
-  //   } else setRedLike(false);
-  // }
 
   function checkImage(url) {
     var image = new Image();
@@ -95,11 +88,8 @@ export default function BlogCard({ content }) {
     image.src = url;
   }
 
-  console.log(
-    Object.values(content.likes).includes("sfVmiDFsL8g3G2NErdXWMgIDZfL2")
-  );
   checkImage(content.imgUrl);
-  // chechkLike();
+
   return (
     <>
       {open && (

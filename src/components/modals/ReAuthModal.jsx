@@ -10,9 +10,8 @@ const ReAuthModal = ({ handleClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await reAuth(password);
+    await reAuth(password);
     handleClose();
-    console.log(result);
   };
   return (
     <Box component="form" noValidate onSubmit={handleSubmit}>

@@ -23,7 +23,6 @@ export default function NewBlog() {
       ...values,
       [name]: value,
     });
-    console.log(user);
   };
   useEffect(() => {
     setInfo({

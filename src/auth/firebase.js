@@ -26,6 +26,11 @@ import {
 import { useEffect, useState } from "react";
 import { setContent } from "../store/content";
 import { openModal } from "../store/modal";
+import {
+  toastErrorNotify,
+  toastSuccessNotify,
+  toastWarnNotify,
+} from "../utils/customToastify";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -52,11 +57,11 @@ export const register = async (email, password, displayName, navigate) => {
       password
     );
     await updateProfile(auth.currentUser, { displayName: displayName });
-    alert("SignUp Completed Success");
+    toastSuccessNotify("SignUp Completed Success");
     navigate("/");
     return user;
   } catch (error) {
-    console.log(error);
+    toastErrorNotify(error.message);
   }
 };
 
@@ -65,11 +70,11 @@ export const login = async (email, password) => {
   try {
     const { user } = await signInWithEmailAndPassword(auth, email, password);
     loginUser(user);
-    alert("Login Success");
+    toastSuccessNotify("Login successful");
 
     return user;
   } catch (error) {
-    console.log(error.message);
+    toastErrorNotify(error.message);
   }
 };
 
@@ -84,22 +89,22 @@ export const reAuth = async (password) => {
       auth.currentUser,
       credential
     );
-    alert("Relogin success");
+    toastSuccessNotify("Relogin success");
 
     return user;
   } catch (error) {
-    console.log(error.message);
+    toastErrorNotify(error.message);
   }
 };
 
 // Logout user function. firebase function
 export const logout = async () => {
   try {
-    const { user } = await signOut(auth);
-    console.log(user);
+    await signOut(auth);
+    toastWarnNotify("Logout out");
     return true;
   } catch (error) {
-    console.log("Logouted");
+    toastWarnNotify(error.message);
   }
 };
 
@@ -120,13 +125,13 @@ export const signUpGoogle = async () => {
       .then((result) => {
         console.log(result);
 
-        alert("Logged in successfully!");
+        toastSuccessNotify("Logged in successfully!");
       })
       .catch((error) => {
-        console.log(error);
+        toastErrorNotify(error);
       });
   } catch (error) {
-    console.log(error.message);
+    toastErrorNotify(error.message);
   }
 };
 
@@ -134,9 +139,9 @@ export const signUpGoogle = async () => {
 export const updateUser = async (data) => {
   try {
     await updateProfile(auth.currentUser, data);
-    alert("Profile Updated");
+    toastSuccessNotify("Profile Updated");
   } catch (error) {
-    alert(error.message);
+    toastErrorNotify(error.message);
   }
 };
 
@@ -144,7 +149,7 @@ export const updateUser = async (data) => {
 export const changePassword = async (password) => {
   try {
     await updatePassword(auth.currentUser, password);
-    alert("Your password changed ");
+    toastSuccessNotify("Your password changed ");
     return true;
   } catch (error) {
     if (error.code === "auth/requires-recent-login") {
@@ -154,7 +159,7 @@ export const changePassword = async (password) => {
         })
       );
     }
-    console.log(error.message);
+    toastErrorNotify(error.message);
   }
 };
 
@@ -185,10 +190,10 @@ export const AddContentDatabase = async (info, navigate) => {
         },
       ],
     });
-    alert("Success added");
+    toastSuccessNotify("Success added");
     navigate("/");
   } catch (error) {
-    console.log(error.message);
+    toastErrorNotify(error.message);
   }
 };
 
@@ -216,9 +221,8 @@ export const useFetch = () => {
 export const UpdateBlogContent = async (info, navigate) => {
   const db = getDatabase(app);
   const updates = {};
-  console.log(info.id);
   updates["blog/" + info.id] = info;
-  alert("Success change");
+  toastSuccessNotify("Successfully Changed");
   navigate("/");
   return update(ref(db), updates);
 };
@@ -228,7 +232,7 @@ export const DeleteContent = (id, navigate) => {
   const db = getDatabase(app);
   remove(ref(db, "blog/" + id));
   navigate("/");
-  alert("Deleted Successfully");
+  toastSuccessNotify("Deleted Successfully");
 };
 
 // Update Like
@@ -258,7 +262,7 @@ export const UpdateComment = async (info) => {
   const db = getDatabase(app);
   const updates = {};
   updates["blog/" + info.id] = info;
-  alert("Success added comment");
+  toastSuccessNotify("Success added comment");
   return update(ref(db), updates);
 };
 

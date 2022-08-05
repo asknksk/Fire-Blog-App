@@ -5,7 +5,6 @@ import Grid from "@mui/material/Grid";
 import { useFetch } from "../auth/firebase";
 import { useSelector } from "react-redux";
 import loadingGif from "../assets/loading.gif";
-// import noData from "../assets/no-data.png";
 import { Box } from "@mui/material";
 
 const Dashboard = () => {
