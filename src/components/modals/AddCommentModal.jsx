@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import { useSelector } from "react-redux";
 import { UpdateComment } from "../../auth/firebase";
 import moment from "moment";
+import { v4 as uuidv4 } from "uuid";
 
 export default function AddCommentModal({ handleClose }) {
   const { user } = useSelector((state) => state.auth);
@@ -21,28 +22,31 @@ export default function AddCommentModal({ handleClose }) {
   // ],
   const [singleComment, setSingleComment] = useState("");
   useEffect(() => {
-    let deneme = {
-      comment: singleComment,
-      commentEmail: user.providerData[0].email,
-      commentImgUrl: user.photoURL,
-      commentTime: moment().format("LLL"),
-    };
+    // let deneme = {
+    //   comment: singleComment,
+    //   commentEmail: user.providerData[0].email,
+    //   commentImgUrl: user.photoURL,
+    //   commentTime: moment().format("LLL"),
+    // };
     setInfo({
       ...clickedComment,
       comment: {
         ...clickedComment.comment,
-        deneme,
+        [uuidv4()]: {
+          comment: singleComment,
+          commentEmail: user.providerData[0].email,
+          commentImgUrl: user.photoURL,
+          commentTime: moment().format("LLL"),
+        },
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleComment]);
   const handleAddComment = (e) => {
     e.preventDefault();
-    // console.log(clickedComment);
-    console.log(info);
-    // UpdateComment();
-    // alert(user.providerData[0].email);
-    // alert(user.photoURL);
+
+    UpdateComment(info);
+
     handleClose();
   };
 
@@ -63,7 +67,7 @@ export default function AddCommentModal({ handleClose }) {
         id="outlined-multiline-static"
         label="Add you Comment"
         multiline
-        // required
+        required
         rows={4}
         sx={{ m: 2 }}
         name="comment"

@@ -2,12 +2,13 @@ import { Avatar, Divider, Grid } from "@mui/material";
 
 const Comments = ({ singleComment }) => {
   const { comment, commentEmail, commentImgUrl, commentTime } = singleComment;
+
   return (
     <>
       <Grid container wrap="nowrap" spacing={2}>
         {commentImgUrl ? (
           <Grid item>
-            <Avatar alt="Remy Sharp" src={commentImgUrl && ""} />
+            <Avatar alt="Remy Sharp" src={commentImgUrl && "A"} />
           </Grid>
         ) : null}
 

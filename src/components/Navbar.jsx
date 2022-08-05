@@ -79,7 +79,7 @@ const ResponsiveAppBar = () => {
                 fontSize: "1.2rem",
               }}
             >
-              Askn Page
+              Askn Blog
             </Button>
           </Box>
 

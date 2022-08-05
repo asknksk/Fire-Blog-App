@@ -1,4 +1,3 @@
-import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -32,6 +31,8 @@ export default function Details() {
       state: { id, blogContent, date, imgUrl, title, userEmail, userId },
     });
   };
+  console.log(Object.keys(state.comment).length);
+
   return (
     <div>
       <div style={{ minHeight: "100vh" }}>
@@ -97,11 +98,17 @@ export default function Details() {
       <div style={{ padding: 14 }} className="App">
         <h1>Comments</h1>
         <Paper style={{ padding: "40px 20px" }}>
-          {/* map işlemi yapılacak gridlerde  */}
-          {state.comment?.map((singleComment, index) => {
-            return <Comments singleComment={singleComment} key={index} />;
-          })}
-          {/* {Object.keys(yourObject).map(function(key)} */}
+          {Object.keys(state.comment).length === 0
+            ? Object.values(state.comment)?.map((singleComment, index) => {
+                return <Comments singleComment={singleComment} key={index} />;
+              })
+            : Object.values(state.comment).map((singleComment, index) => {
+                if (index !== 0) {
+                  return <Comments singleComment={singleComment} key={index} />;
+                } else {
+                  return null;
+                }
+              })}
         </Paper>
       </div>
     </div>

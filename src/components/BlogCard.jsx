@@ -18,7 +18,7 @@ import { openModal } from "../store/modal";
 import store from "../store";
 import { setComment } from "../store/clickedComment";
 
-export default function BlogCard({ content, redLike, setRedLike }) {
+export default function BlogCard({ content }) {
   const [isValid, setIsValid] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
@@ -52,10 +52,8 @@ export default function BlogCard({ content, redLike, setRedLike }) {
     if (user) {
       if (!Object.values(content.likes).includes(user.uid)) {
         increaseFav(content, user.uid);
-        setRedLike(true);
       } else {
         decreaseFav(content, user.uid);
-        setRedLike(false);
       }
     } else {
       alert("You should login first");
@@ -65,20 +63,24 @@ export default function BlogCard({ content, redLike, setRedLike }) {
   };
 
   const handleComment = () => {
-    store.dispatch(setComment(content));
-    handleOpen();
-    store.dispatch(
-      openModal({
-        name: "comment-modal",
-      })
-    );
+    if (user) {
+      store.dispatch(setComment(content));
+      handleOpen();
+      store.dispatch(
+        openModal({
+          name: "comment-modal",
+        })
+      );
+    } else {
+      alert("You must login");
+    }
   };
 
-  function chechkLike() {
-    if (Object.values(content.likes).includes(user.uid)) {
-      setRedLike(true);
-    } else setRedLike(false);
-  }
+  // function chechkLike() {
+  //   if (Object.values(content.likes).includes(user.uid)) {
+  //     setRedLike(true);
+  //   } else setRedLike(false);
+  // }
 
   function checkImage(url) {
     var image = new Image();
@@ -93,8 +95,11 @@ export default function BlogCard({ content, redLike, setRedLike }) {
     image.src = url;
   }
 
+  console.log(
+    Object.values(content.likes).includes("sfVmiDFsL8g3G2NErdXWMgIDZfL2")
+  );
   checkImage(content.imgUrl);
-  chechkLike();
+  // chechkLike();
   return (
     <>
       {open && (
@@ -107,18 +112,19 @@ export default function BlogCard({ content, redLike, setRedLike }) {
         />
       )}
 
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{ minWidth: 345, maxWidth: 345 }}>
         <Box onClick={openDetails} sx={{ cursor: "pointer" }}>
           <CardMedia
             component="img"
-            height="140"
+            height={140}
             image={isValid ? content.imgUrl : placeHolderImg}
             alt="content-img"
           />
 
-          <CardContent sx={{ bgcolor: "primary.light" }}>
+          <CardContent sx={{ bgcolor: "primary.light", height: "125px" }}>
             <Typography
-              variant="h4"
+              variant="h5"
+              component="h2"
               color="primary"
               sx={{ fontFamily: "Girassol" }}
             >
@@ -127,9 +133,22 @@ export default function BlogCard({ content, redLike, setRedLike }) {
             <Typography variant="body2" color="secondary.light">
               {content.date}
             </Typography>
-            <Typography variant="body1" color="secondary">
-              {content.blogContent}
-            </Typography>
+            <p
+              variant="body1"
+              color="secondary"
+              sx={{
+                display: "-webkit-box",
+                "-webkit-line-clamp": 2,
+                "-webkit-box-orient": "vertical",
+                "text-overflow": "ellipsis",
+                overflow: "hidden",
+                fontSize: "0.8rem",
+              }}
+            >
+              {content.blogContent.length > 80
+                ? content.blogContent.slice(0, 80) + "..."
+                : content.blogContent}
+            </p>
           </CardContent>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", ml: 1 }}>
@@ -139,10 +158,13 @@ export default function BlogCard({ content, redLike, setRedLike }) {
           </Typography>
         </Box>
         <CardActions disableSpacing>
-          {/* {red ? ( */}
           <IconButton
             aria-label="add to favorites"
-            sx={redLike && { color: "red" }}
+            sx={
+              Object.values(content.likes).includes(user.uid) && {
+                color: "red",
+              }
+            }
             onClick={() => handleLike()}
           >
             {" "}
@@ -159,7 +181,9 @@ export default function BlogCard({ content, redLike, setRedLike }) {
             <ChatBubbleOutlineIcon />
           </IconButton>
           <Typography variant="body2" color="text.secondary">
-            0{" "}
+            {Object.keys(content.comment).length > 0
+              ? Object.keys(content.comment).length - 1
+              : "0"}{" "}
           </Typography>
         </CardActions>
       </Card>

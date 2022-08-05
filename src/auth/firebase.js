@@ -253,6 +253,7 @@ export const decreaseFav = async (info, userId) => {
   });
 };
 
+// Update Comment function (add comment)
 export const UpdateComment = async (info) => {
   const db = getDatabase(app);
   const updates = {};
