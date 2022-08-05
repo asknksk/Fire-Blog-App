@@ -33,10 +33,15 @@ export default function NewBlog() {
       date: moment().format("ll"),
       countLike: 0,
       likes: [""],
-
-      // comment: [{userId: 1111, "comment": "12124"}],
+      comment: [
+        {
+          comment: "No comment yet.",
+          commentEmail: "",
+          commentImgUrl: "",
+          commentTime: moment().format("LLL"),
+        },
+      ],
     });
-    // comment: [...values.comment, {userıd}]
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values]);
 

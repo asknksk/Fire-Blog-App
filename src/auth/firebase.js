@@ -27,7 +27,6 @@ import { useEffect, useState } from "react";
 import { setContent } from "../store/content";
 import { openModal } from "../store/modal";
 
-
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -177,7 +176,14 @@ export const AddContentDatabase = async (info, navigate) => {
       date: info.date,
       countLike: 0,
       likes: [""],
-      // comment: ["deneme1", "deneme2", "deneme3"]
+      comment: [
+        {
+          comment: "No comment yet.",
+          commentEmail: "",
+          commentImgUrl: "",
+          commentTime: "",
+        },
+      ],
     });
     alert("Success added");
     navigate("/");

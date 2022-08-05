@@ -15,10 +15,11 @@ import { useSelector } from "react-redux";
 import { DeleteContent } from "../auth/firebase";
 import { Paper } from "@mui/material";
 import Comments from "../components/Comments";
+import content from "../store/content";
 
 export default function Details() {
   const { state } = useLocation();
-  // id, blogContent, date, imgUrl, title, userEmail, userId
+  // id, blogContent, date, imgUrl, title, userEmail, userId ,comment
   const { user } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
@@ -32,7 +33,6 @@ export default function Details() {
       state: { id, blogContent, date, imgUrl, title, userEmail, userId },
     });
   };
-
   return (
     <div>
       <div style={{ minHeight: "100vh" }}>
@@ -99,9 +99,10 @@ export default function Details() {
         <h1>Comments</h1>
         <Paper style={{ padding: "40px 20px" }}>
           {/* map işlemi yapılacak gridlerde  */}
-          <Comments />
-          <Comments />
-          <Comments />
+          {state.comment?.map((singleComment, index) => {
+            return <Comments singleComment={singleComment} key={index} />;
+          })}
+          {/* {Object.keys(yourObject).map(function(key)} */}
         </Paper>
       </div>
     </div>

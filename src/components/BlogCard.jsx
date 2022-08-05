@@ -13,22 +13,31 @@ import placeHolderImg from "../assets/placeholder.png";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { decreaseFav, increaseFav } from "../auth/firebase";
-import { render } from "@testing-library/react";
 
-export default function BlogCard({ content }) {
+export default function BlogCard({ content, redLike, setRedLike }) {
   const [isValid, setIsValid] = useState(false);
-  const [red, setRed] = useState(false);
+
   const { user } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
 
   const openDetails = () => {
-    const { id, blogContent, date, imgUrl, title, userEmail, userId } = content;
+    const { id, blogContent, date, imgUrl, title, userEmail, userId, comment } =
+      content;
     if (!user) {
       alert("Login for detials of blog!");
     }
     navigate(`/detail/${id}`, {
-      state: { id, blogContent, date, imgUrl, title, userEmail, userId },
+      state: {
+        id,
+        blogContent,
+        date,
+        imgUrl,
+        title,
+        userEmail,
+        userId,
+        comment,
+      },
     });
   };
 
@@ -36,10 +45,10 @@ export default function BlogCard({ content }) {
     if (user) {
       if (!Object.values(content.likes).includes(user.uid)) {
         increaseFav(content, user.uid);
-        setRed(true);
+        setRedLike(true);
       } else {
         decreaseFav(content, user.uid);
-        setRed(false);
+        setRedLike(false);
       }
     } else {
       alert("You should login first");
@@ -47,6 +56,12 @@ export default function BlogCard({ content }) {
 
     console.log(content.countLike);
   };
+
+  function chechkLike() {
+    if (Object.values(content.likes).includes(user.uid)) {
+      setRedLike(true);
+    }
+  }
 
   function checkImage(url) {
     var image = new Image();
@@ -62,7 +77,7 @@ export default function BlogCard({ content }) {
   }
 
   checkImage(content.imgUrl);
-
+  chechkLike();
   return (
     <Card sx={{ maxWidth: 345 }}>
       <Box onClick={openDetails} sx={{ cursor: "pointer" }}>
@@ -99,7 +114,7 @@ export default function BlogCard({ content }) {
         {/* {red ? ( */}
         <IconButton
           aria-label="add to favorites"
-          sx={red && { color: "red" }}
+          sx={redLike && { color: "red" }}
           onClick={() => handleLike()}
         >
           {" "}

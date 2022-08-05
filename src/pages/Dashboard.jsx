@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import BlogCard from "../components/BlogCard";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -12,6 +12,7 @@ import { Box } from "@mui/material";
 const Dashboard = () => {
   const { isLoading } = useFetch();
   const { content } = useSelector((state) => state.content);
+  const [redLike, setRedLike] = useState(false);
 
   return (
     <div>
@@ -35,16 +36,7 @@ const Dashboard = () => {
           src={loadingGif}
         />
       )}
-      {/* {!content || (
-        <Box
-          sx={{
-            textAlign: "center",
-          }}
-          component="img"
-          alt="no-data"
-          src={noData}
-        />
-      )} */}
+   
       {!isLoading && (
         <>
           <Container sx={{ marginTop: "4rem" }}>
@@ -64,7 +56,7 @@ const Dashboard = () => {
                   spacing={2}
                   key={content.id}
                 >
-                  <BlogCard content={content} />
+                  <BlogCard content={content} setRedLike={setRedLike} redLike={redLike}/>
                 </Grid>
               ))}
             </Grid>
