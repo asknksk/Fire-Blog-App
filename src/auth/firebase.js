@@ -101,7 +101,7 @@ export const reAuth = async (password) => {
 export const logout = async () => {
   try {
     await signOut(auth);
-    toastWarnNotify("Logout out");
+    toastWarnNotify("Logouted");
     return true;
   } catch (error) {
     toastWarnNotify(error.message);
@@ -118,12 +118,13 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // Login user to google  function. firebase function
-export const signUpGoogle = async () => {
+export const signUpGoogle = async (navigate) => {
   try {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
         console.log(result);
+        navigate("/");
 
         toastSuccessNotify("Logged in successfully!");
       })

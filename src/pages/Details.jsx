@@ -41,7 +41,29 @@ export default function Details() {
           variant="h2"
           noWrap
         >
-          ──── Details ────
+          <Typography
+            variant="h2"
+            sx={{
+              display: { xs: "none", md: "inline" },
+              fontFamily: "Girassol",
+              textAlign: "center",
+              color: "primary",
+            }}
+          >
+            ────
+          </Typography>{" "}
+          Details{" "}
+          <Typography
+            variant="h2"
+            sx={{
+              display: { xs: "none", md: "inline" },
+              fontFamily: "Girassol",
+              textAlign: "center",
+              color: "primary",
+            }}
+          >
+            ────
+          </Typography>
         </Typography>
         <Card
           sx={{

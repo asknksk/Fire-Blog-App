@@ -19,7 +19,29 @@ const MyBlogs = () => {
         variant="h2"
         noWrap
       >
-        ──── My Blogs ────
+        <Typography
+          variant="h2"
+          sx={{
+            display: { xs: "none", md: "inline" },
+            fontFamily: "Girassol",
+            textAlign: "center",
+            color: "primary",
+          }}
+        >
+          ────
+        </Typography>{" "}
+        My Blogs{" "}
+        <Typography
+          variant="h2"
+          sx={{
+            display: { xs: "none", md: "inline" },
+            fontFamily: "Girassol",
+            textAlign: "center",
+            color: "primary",
+          }}
+        >
+          ────
+        </Typography>
       </Typography>
       {isLoading && (
         <Box
@@ -41,21 +63,13 @@ const MyBlogs = () => {
             <Grid
               container
               justifyContent="center"
-              spacing={4}
+              spacing={2}
               sx={{ paddingTop: "2rem" }}
             >
               {content
                 ?.filter((post) => post.userId === user.uid)
                 .map((content) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    md={3}
-                    lg={4}
-                    spacing={2}
-                    key={content.id}
-                  >
+                  <Grid item key={content.id}>
                     <BlogCard content={content} />
                   </Grid>
                 ))}

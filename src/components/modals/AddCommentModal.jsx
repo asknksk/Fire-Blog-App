@@ -12,22 +12,8 @@ export default function AddCommentModal({ handleClose }) {
   const { clickedComment } = useSelector((state) => state.clickedComment);
   const [info, setInfo] = useState("");
 
-  // comment: [
-  //   {
-  //     comment: "No comment yet.",
-  //     commentEmail: "",
-  //     commentImgUrl: "",
-  //     commentTime: "",
-  //   },
-  // ],
   const [singleComment, setSingleComment] = useState("");
   useEffect(() => {
-    // let deneme = {
-    //   comment: singleComment,
-    //   commentEmail: user.providerData[0].email,
-    //   commentImgUrl: user.photoURL,
-    //   commentTime: moment().format("LLL"),
-    // };
     setInfo({
       ...clickedComment,
       comment: {
@@ -54,8 +40,6 @@ export default function AddCommentModal({ handleClose }) {
     <Box
       component="form"
       sx={{
-        width: "27rem",
-        minWidth: "300px",
         display: "flex",
         flexDirection: "column",
         m: "auto",
